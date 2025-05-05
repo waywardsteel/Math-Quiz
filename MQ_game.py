@@ -11,7 +11,7 @@ def yes_no(question):
         #check the user says yes / no
         if response == "yes" or response == "y":
             return "yes"
-        elif response == "no" or response == "no":
+        elif response == "no" or response == "n":
            return "no"
         else:
             print("please enter yes / no")
@@ -20,11 +20,12 @@ def instructions():
     """Prints instructions"""
 
     print("""
-*** Instructions ****
+*** Instructions ***
 
 Do a math quiz about addition and subtraction, adding and subtracting numbers under 20.
 At the end check how many you got right with your quiz history!
-To start type 'fixed' if you want a select amount of questions and press 'enter' / input 'infinite' if wanting unlimited questions
+To start type 'fixed' if you want a select amount of questions and 
+press 'enter' / input 'infinite' if wanting unlimited questions
 Good Luck!
     """)
 
@@ -51,7 +52,7 @@ def get_integer_input(prompt, min_value=None, max_value=None):
                 continue
             return user_input
         except ValueError:
-            print("Invalid input. Please enter an integer.")
+            print("Please enter an integer.")
 
 
 def generate_question():
@@ -77,7 +78,14 @@ def generate_question():
 def main():
     print("Welcome to a addition and subtraction quiz!")
 
-    mode = input("Do you want 'fixed number of questions' or 'infinite mode'? ").strip().lower()
+    while True:
+        mode = input(
+            "Do you want 'fixed number of questions' or 'infinite mode? ").strip().lower()
+        if mode == "" or mode == "fixed":
+            break
+        else:
+            print("Please press Enter for infinite mode or type 'fixed'.")
+
     quiz_history = []
     score = 0
     question_number = 0
@@ -115,7 +123,7 @@ def main():
             if question_number >= num_questions:
                 break
         else:
-            continue_playing = input("Play again? (yes/no): ").strip().lower()
+            continue_playing = input("Play again?: ").strip().lower()
             if continue_playing != "yes":
                 break
 
@@ -131,9 +139,9 @@ def main():
         for item in quiz_history:
             print(f"Q{item['number']}: {item['question']}")
             if item['result'] == "Correct":
-                print(f"✅✅✅ Correct! Your answer: {item['user_answer']}\n✅✅✅")
+                print(f"✅✅ Correct! Your answer: {item['user_answer']}\n")
             else:
-                print(f"❌❌❌ Incorrect. Your answer: {item['user_answer']}, Correct answer: {item['correct_answer']}\n❌❌❌")
+                print(f"❌❌ Incorrect. Your answer: {item['user_answer']}, Correct answer: {item['correct_answer']}\n❌❌")
 
 
 if __name__ == "__main__":
