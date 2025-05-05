@@ -52,7 +52,7 @@ def get_integer_input(prompt, min_value=None, max_value=None):
                 continue
             return user_input
         except ValueError:
-            print("Please enter an integer.")
+            print("Please enter an number between 1 - 20")
 
 
 def generate_question():
