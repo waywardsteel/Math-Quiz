@@ -127,7 +127,7 @@ def main():
             if continue_playing != "yes":
                 break
 
-    # Summary
+    # history
     print("\nMath quiz Completed!")
     percentage = (score / question_number) * 100
     print(f"You got {score} out of {question_number} correct. ({percentage:.1f}%)")
