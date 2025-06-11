@@ -1,6 +1,6 @@
 import random
 
-#check if user wants instructions
+
 def yes_no(question):
     while True:
         response = input(question).lower()
@@ -11,7 +11,6 @@ def yes_no(question):
         else:
             print("Please enter yes or no.")
 
-#instructions
 
 def instructions():
     print("""
@@ -42,7 +41,6 @@ def get_integer_input(prompt, min_value=None, max_value=None):
         except ValueError:
             print("Please enter a valid whole number.")
 
-#number generator
 
 def generate_question():
     operation = random.choice(["+", "-"])
@@ -70,8 +68,6 @@ if want_instructions == "yes":
 
 print("Welcome to the addition and subtraction quiz!")
 
-# does user want infinite or a set amout of questions
-
 while True:
     mode = input("Do you want 'fixed' mode or 'infinite' mode: ").strip().lower()
     if mode == "fixed" or mode == "":
@@ -83,12 +79,12 @@ quiz_history = []
 score = 0
 question_number = 0
 
-#how many questions does user want
-
 if mode == "fixed":
     num_questions = get_integer_input("How many questions would you like? (1 to 20): ", 1, 20)
 else:
+    mode = "infinite"
     num_questions = None
+
 
 while True:
     question_number += 1
@@ -121,20 +117,17 @@ while True:
         if keep_going == "no":
             break
 
-# END OF QUIZ
+#END OF QUIZ
 
 print("\n🎉 Math quiz complete!")
 print(f"You got {score} out of {question_number} correct.")
 
-#game history
-# check if user wants to see thier game history
+#GAME HISTORY
 
-see_history = yes_no("Would you like to see your quiz history? (yes/no): ")
-if see_history == "yes":
-    print("\n--- Quiz History ---")
-    for item in quiz_history:
-        print(f"Q{item['number']}: {item['question']}")
-        if item['result'] == "Correct":
-            print(f"✅ Your answer: {item['user_answer']} (Correct)\n")
-        else:
-            print(f"❌ Your answer: {item['user_answer']} (Correct answer: {item['correct_answer']})\n")
+#check if user wants to see game history
+if yes_no("Do you want to see game history? yes / no ") == "yes":
+    print("\n=== Quiz History ===")
+    for e in quiz_history:
+        print(f"Q{e['number']}: {e['question']} Your:{e['user_answer']} Correct:{e['correct_answer']} {e['result']}")
+else:
+    print("🎉Ok thanks for playing🎉")
