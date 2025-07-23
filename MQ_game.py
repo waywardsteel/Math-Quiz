@@ -1,6 +1,7 @@
 import random
 
-
+# checks user response, question
+# repeats if users don't enter yes / no
 def yes_no(question):
     while True:
         response = input(question).lower()
@@ -11,6 +12,8 @@ def yes_no(question):
         else:
             print("Please enter yes or no.")
 
+# === PROGRAM START ===
+print("Welcome to the addition and subtraction quiz!")
 
 def instructions():
     print("""
@@ -41,11 +44,11 @@ def get_integer_input(prompt, min_value=None, max_value=None):
         except ValueError:
             print("Please enter a valid whole number.")
 
-
+# random number generator for +, - and x
 def generate_question():
-    operation = random.choice(["+", "-"])
-    num1 = random.randint(0, 20)
-    num2 = random.randint(0, 20)
+    operation = random.choice(["+", "-", "*"])
+    num1 = random.randint(0, 12)
+    num2 = random.randint(0, 12)
 
     if operation == "-" and num2 > num1:
         num1, num2 = num2, num1
@@ -53,21 +56,24 @@ def generate_question():
     if operation == "+":
         question = f"{num1} + {num2}"
         answer = num1 + num2
-    else:
+    elif operation == "-":
         question = f"{num1} - {num2}"
         answer = num1 - num2
+    else:  # multiplication
+        question = f"{num1} × {num2}"
+        answer = num1 * num2
 
     return question, answer
 
 
-# === PROGRAM START ===
 
+
+# ask if want instructions
 want_instructions = yes_no("Do you want instructions? (yes/no): ")
 if want_instructions == "yes":
     instructions()
 
-print("Welcome to the addition and subtraction quiz!")
-
+# ask if want infinite or fixed amout of questions
 while True:
     mode = input("Do you want 'fixed' mode or 'infinite' mode: ").strip().lower()
     if mode == "fixed" or mode == "":
@@ -79,6 +85,7 @@ quiz_history = []
 score = 0
 question_number = 0
 
+# see how many questions they want
 if mode == "fixed":
     num_questions = get_integer_input("How many questions would you like? (1 to 20): ", 1, 20)
 else:
@@ -86,6 +93,7 @@ else:
     num_questions = None
 
 
+# correct - yes or no
 while True:
     question_number += 1
     question, correct_answer = generate_question()
@@ -101,24 +109,23 @@ while True:
         print(f"❌ Incorrect. The correct answer was {correct_answer}.")
         result = "Incorrect"
 
-    quiz_history.append({
-        "number": question_number,
-        "question": question,
-        "user_answer": user_answer,
-        "correct_answer": correct_answer,
-        "result": result
-    })
+    history_line = f"Q{question_number}: {question} | Your Answer: {user_answer} | Correct: {correct_answer} | {result}"
+    quiz_history.append(history_line)
 
+    # In infinite mode, it just keeps going automatically
     if mode == "fixed":
         if question_number >= num_questions:
             break
+
     else:
         keep_going = yes_no("Do you want to continue? (yes/no): ")
         if keep_going == "no":
             break
 
+
 #END OF QUIZ
 
+#show score
 print("\n🎉 Math quiz complete!")
 print(f"You got {score} out of {question_number} correct.")
 
@@ -126,8 +133,7 @@ print(f"You got {score} out of {question_number} correct.")
 
 #check if user wants to see game history
 if yes_no("Do you want to see game history? yes / no ") == "yes":
-    print("\n=== Quiz History ===")
-    for e in quiz_history:
-        print(f"Q{e['number']}: {e['question']} Your:{e['user_answer']} Correct:{e['correct_answer']} {e['result']}")
+    for line in quiz_history:
+        print(line)
 else:
     print("🎉Ok thanks for playing🎉")
